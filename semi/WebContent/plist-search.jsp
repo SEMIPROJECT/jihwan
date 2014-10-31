@@ -2,6 +2,7 @@
 <!DOCTYPE html >
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %> 
+<%@ page import = "semi.DBConnectionMgr" %> 
                 <!-- JSP에서 JDBC의 객체를 사용하기 위해 java.sql 패키지를 import 한다 -->
 
 <html>
@@ -57,14 +58,14 @@
 ResultSet rs = null;
 Connection conn = null;                                        // null로 초기화 한다.
 PreparedStatement pstmt = null;
+DBConnectionMgr pool = null;
 ///사원번호 + 전체검색
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";
-	String id = "root";                                                    // 사용자 계정
-	String pw = "1234";                                                // 사용자 계정의 패스워드
+	pool=DBConnectionMgr.getInstance();
+	conn=pool.getConnection();
+	
 	String sql=null;
-	Class.forName("com.mysql.jdbc.Driver");                      // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-	conn=DriverManager.getConnection(url,id,pw); 
+	
 	String c = request.getParameter("code");	
 	String day = request.getParameter("day");	
 	String des = request.getParameter("des");	
