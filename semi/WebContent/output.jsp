@@ -1,11 +1,6 @@
 <%@page contentType="text/html;charset=euc-kr" %>
 <!DOCTYPE html >
-<%@ page import="java.sql.Connection,java.sql.Date,java.sql.DriverManager
-,java.sql.ResultSet,java.sql.SQLException,java.sql.SQLIntegrityConstraintViolationException,
-java.sql.Statement,java.util.Scanner" %>
 <%@ page import = "java.sql.*" %> 
-<%@ page import = "semi.DBConnectionMgr" %> 
-                <!-- JSP에서 JDBC의 객체를 사용하기 위해 java.sql 패키지를 import 한다 -->
 
 <html>
 <head>
@@ -13,6 +8,7 @@ java.sql.Statement,java.util.Scanner" %>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" type="text/css" href="css/table.css">
   <script>
   $(function() {
     $( "#datepicker" ).datepicker({
@@ -20,7 +16,6 @@ java.sql.Statement,java.util.Scanner" %>
     });
   });
   </script>
-  <link rel="stylesheet" type="text/css" href="css/table.css">
 </head>
 <body>
 <%@include file="inc/asdf.jsp" %>
@@ -45,31 +40,12 @@ java.sql.Statement,java.util.Scanner" %>
 
 
 <table width="550" border="1">
-<%
-ResultSet rs = null;
-Connection conn = null;                                        // null로 초기화 한다.
-PreparedStatement pstmt = null;
-Statement stmt = null;
-DBConnectionMgr pool = null;
-
-try{
-   /* String url = "jdbc:oracle:thin:@192.168.10.49:1521:orcl";        // 사용하려는 데이터베이스명을 포함한 URL 기술
-   String id = "jointest";                                                    // 사용자 계정
-   String pw = "1111";                                                // 사용자 계정의 패스워드
-   
-   Class.forName("oracle.jdbc.OracleDriver");                       // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-   conn=DriverManager.getConnection(url,id,pw);  */
-   
-   pool=DBConnectionMgr.getInstance();
-   conn=pool.getConnection();            // DriverManager 객체로부터 Connection 객체를 얻어온다.
-   
-   
    String a = request.getParameter("code");
    String count = request.getParameter("count");
    String date = request.getParameter("date");
    out.println("여기1");	
-   String sql = "select iname, cname, price, sprice , des from tlist where code = ?";                         // sql 쿼리
-   pstmt = conn.prepareStatement(sql);                          // prepareStatement에서 해당 sql을 미리 컴파일한다.
+   String sql = "select iname, cname, price, sprice , des from tlist where code = ?"; 
+   pstmt = conn.prepareStatement(sql);                          
    pstmt.setString(1, a);
    rs = pstmt.executeQuery();   	
    rs.next();   
