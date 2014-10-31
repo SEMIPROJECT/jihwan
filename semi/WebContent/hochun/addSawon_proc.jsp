@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
- 
+
 <%	
 String search = request.getParameter("search");
 String searchText = request.getParameter("searchText");
