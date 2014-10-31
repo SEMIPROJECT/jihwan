@@ -1,4 +1,4 @@
-<%@page import="semi.DBConnectionMgr" %>
+ <%@page import="semi.DBConnectionMgr" %>
 <%@page contentType="text/html;charset=euc-kr" %>
 <!DOCTYPE html >
 <%@ page import="java.sql.Connection,java.sql.Date,java.sql.DriverManager
