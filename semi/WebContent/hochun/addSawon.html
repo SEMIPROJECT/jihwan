@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>사원 추가</h1>
+
+
+<form method="post" action="addSawon_proc.jsp">
+ <table border="1">
+		<tr>
+			<td>이름 : </td>
+			<td><input type="text" name="ename"></td>
+		</tr>
+		<tr>
+			<td>직급 : </td>
+			<td><input type="text" name="position"></td>
+		</tr>
+		<tr>
+			<td>부서명 :</td>
+			<td>
+				<select name="dept">
+					<option value="영업">영업</option>
+					<option value="기술">기술</option>
+					<option value="기획">기획</option>
+				</select>
+		</td>
+		<tr>
+			<td>입사일 : </td>
+			<td><input type="text" name="hire_date"></td>
+		</tr>
+		
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="추가">&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="reset" value="다시 작성">
+			</td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>
