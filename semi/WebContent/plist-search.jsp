@@ -1,8 +1,8 @@
 <%@page contentType="text/html;charset=euc-kr" %>
+<%@page import="semi.DBConnectionMgr" %>
 <!DOCTYPE html >
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %> 
-<%@ page import = "semi.DBConnectionMgr" %> 
                 <!-- JSP에서 JDBC의 객체를 사용하기 위해 java.sql 패키지를 import 한다 -->
 
 <html>
@@ -61,11 +61,10 @@ PreparedStatement pstmt = null;
 DBConnectionMgr pool = null;
 ///사원번호 + 전체검색
 try{
-	pool=DBConnectionMgr.getInstance();
-	conn=pool.getConnection();
-	
+	  pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection();                                   // 사용자 계정의 패스워드
 	String sql=null;
-	
+
 	String c = request.getParameter("code");	
 	String day = request.getParameter("day");	
 	String des = request.getParameter("des");	
@@ -119,12 +118,8 @@ try{
 	}
 ///이름검색
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";
-	String id = "root";                                                    // 사용자 계정
-	String pw = "1234";                                                // 사용자 계정의 패스워드
-
-	Class.forName("com.mysql.jdbc.Driver");                      // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-	conn=DriverManager.getConnection(url,id,pw); 
+	   pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 	String a = request.getParameter("name");	
 	
 	String sql1 = "select pcode,pname,pdes,phdate,posname from plist p , pposit s "+
@@ -167,12 +162,8 @@ try{
 	}
 ////부서번호
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";
-	String id = "root";                                                    // 사용자 계정
-	String pw = "1234";                                                // 사용자 계정의 패스워드
-
-	Class.forName("com.mysql.jdbc.Driver");                      // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-	conn=DriverManager.getConnection(url,id,pw); 
+	   pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 	String des = request.getParameter("des");	
 	
 	String sql1 = "select pcode,pname,pdes,phdate,posname from plist p , pposit s "+
@@ -215,12 +206,8 @@ try{
 	}
 ////입사일
 try{
-String url = "jdbc:mysql://localhost:3306/testboard";
-String id = "root";                                                    // 사용자 계정
-String pw = "1234";                                                // 사용자 계정의 패스워드
-
-Class.forName("com.mysql.jdbc.Driver");                      // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-conn=DriverManager.getConnection(url,id,pw); 
+	   pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 String day = request.getParameter("day");	
 
 String sql1 = "select pcode,pname,pdes,phdate,posname from plist p , pposit s "+
@@ -261,10 +248,8 @@ catch(Exception e){                                                    // 예외가
 	/* e.printStackTrace();
 	out.println("member 테이블 호출에 실패했습니다."); */
 }
-	finally	{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-		if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-		if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-		if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
+	finally	{ 
+		pool.freeConnection(conn,pstmt,rs);
 	}
 %>
 </table>

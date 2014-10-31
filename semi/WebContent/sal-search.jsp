@@ -1,4 +1,5 @@
 <%@page contentType="text/html;charset=euc-kr" %>
+<%@page import="semi.DBConnectionMgr" %>
 <!DOCTYPE html >
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %> 
@@ -35,14 +36,12 @@
 ResultSet rs = null;
 Connection conn = null;                                        // null로 초기화 한다.
 PreparedStatement pstmt = null;
+DBConnectionMgr pool = null;
+
 int pdes = 0 , pnum=0;
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";
-	String id = "root";                                                    // 사용자 계정
-	String pw = "1234";                                                // 사용자 계정의 패스워드
-
-	Class.forName("com.mysql.jdbc.Driver");                      // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-	conn=DriverManager.getConnection(url,id,pw); 
+	 pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 	String a = request.getParameter("code");
 	
 	String sql = "select phdate,psa,pname,p.pdes,p.pnum from plist p , psal s where p.pdes = s.pdes and p.pnum = s.pnum and pcode = ?";                        // sql 쿼리
@@ -94,10 +93,8 @@ try{
 		//e.printStackTrace();
 		//out.println("member 테이블 호출에 실패했습니다.");
 	}
-	finally	{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-		if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-		if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-		if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
+	finally	{   
+		pool.freeConnection(conn,pstmt,rs);
 	}
 %>
 </table>

@@ -1,10 +1,10 @@
 <%@page contentType="text/html;charset=euc-kr" %>
+<%@page import="semi.DBConnectionMgr" %>
 <!DOCTYPE html >
 <%@ page import="java.sql.Connection,java.sql.Date,java.sql.DriverManager
 ,java.sql.ResultSet,java.sql.SQLException,java.sql.SQLIntegrityConstraintViolationException,
 java.sql.Statement,java.util.Scanner" %>
 <%@ page import = "java.sql.*" %> 
-<%@ page import = "semi.DBConnectionMgr" %> 
                 <!-- JSP에서 JDBC의 객체를 사용하기 위해 java.sql 패키지를 import 한다 -->
 
 <html>
@@ -60,10 +60,10 @@ try{
    Class.forName("oracle.jdbc.OracleDriver");                       // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
    conn=DriverManager.getConnection(url,id,pw);  */
    
-   pool=DBConnectionMgr.getInstance();
-   conn=pool.getConnection();            // DriverManager 객체로부터 Connection 객체를 얻어온다.
+         // DriverManager 객체로부터 Connection 객체를 얻어온다.
    
-   
+   	   pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
    String a = request.getParameter("code");
    String count = request.getParameter("count");
    String date = request.getParameter("date");
@@ -128,10 +128,8 @@ try{
       if(a != null)
       out.println("입력된 값이 없거나 리스트에 없는 상품입니다."); 
    }
-   finally   {                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-      if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-      if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-      if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
+   finally   {
+	   pool.freeConnection(conn,pstmt,rs);
    }
 %>
 </table>

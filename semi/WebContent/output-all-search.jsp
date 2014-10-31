@@ -1,5 +1,5 @@
 <%@page contentType="text/html;charset=euc-kr" %>
-<%@ page import = "semi.DBConnectionMgr" %> 
+<%@page import="semi.DBConnectionMgr" %>
 <!DOCTYPE html >
 <%@ page import="java.sql.Connection,java.sql.Date,java.sql.DriverManager
 ,java.sql.ResultSet,java.sql.SQLException,java.sql.SQLIntegrityConstraintViolationException,
@@ -29,11 +29,10 @@ ResultSet rs = null;
 Connection conn = null;                                        // null로 초기화 한다.
 Statement pstmt = null;
 DBConnectionMgr pool = null;
-
 try{
-	pool=DBConnectionMgr.getInstance();
-	conn=pool.getConnection();
-	
+
+	   pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 	request.setCharacterEncoding("euc-kr");
 	response.setCharacterEncoding("euc-kr");
 	String sort = request.getParameter("code");
@@ -73,11 +72,9 @@ try{
 		e.printStackTrace();
 		out.println("member 테이블 호출에 실패했습니다.");
 	}
-	finally	{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-		if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-		if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-		if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
-	}
+	finally	{     
+		pool.freeConnection(conn,pstmt,rs);// 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
+}
 %>
 </table>
 </body>

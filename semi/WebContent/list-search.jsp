@@ -1,9 +1,9 @@
 <%@page contentType="text/html;charset=euc-kr" %>
+<%@page import="semi.DBConnectionMgr" %>
 <!DOCTYPE html >
 
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %> 
-<%@ page import = "semi.DBConnectionMgr" %> 
  
                 <!-- JSP에서 JDBC의 객체를 사용하기 위해 java.sql 패키지를 import 한다 -->
 
@@ -39,11 +39,9 @@ ResultSet rs = null;
 Connection conn = null;                                        // null로 초기화 한다.
 PreparedStatement pstmt = null;
 DBConnectionMgr pool = null;
-
 try{
-	pool=DBConnectionMgr.getInstance();
-	conn=pool.getConnection();
-	
+	   pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 	String a = request.getParameter("code");
 	if(a != ""){
 	String sql = "select * from tlist where code = ?";                        // sql 쿼리
@@ -95,7 +93,8 @@ try{
 		out.println("member 테이블 호출에 실패했습니다.");
 	}
 	finally	{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-		pool.freeConnection(conn, pstmt, rs);}
+		pool.freeConnection(conn,pstmt,rs);
+	}
 %>
 </table>
 </body>

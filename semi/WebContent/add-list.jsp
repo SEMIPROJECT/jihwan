@@ -98,9 +98,7 @@ try{
       out.println("입력된 값이 없거나 리스트에 없는 상품입니다."); 
    }
    finally   {                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-      if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-      if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-      if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
+	pool.freeConnection(conn,pstmt,rs);
    }
 %>
 </table>

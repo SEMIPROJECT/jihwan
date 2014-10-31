@@ -1,11 +1,11 @@
 <%@page contentType="text/html;charset=euc-kr" %>
+<%@page import="semi.DBConnectionMgr" %>
 <!DOCTYPE html >
 <%@ page import="java.sql.Connection,java.sql.Date,java.sql.DriverManager
 ,java.sql.ResultSet,java.sql.SQLException,java.sql.SQLIntegrityConstraintViolationException,
 java.sql.Statement,java.util.Scanner" %>
 <%@ page import = "java.sql.*" %> 
 <%@ page import = "java.util.*" %> 
-<%@ page import = "semi.DBConnectionMgr" %>
                 <!-- JSP에서 JDBC의 객체를 사용하기 위해 java.sql 패키지를 import 한다 -->
 
 <html>
@@ -59,11 +59,9 @@ ResultSet rs = null;
 Connection conn = null;                                        // null로 초기화 한다.
 PreparedStatement pstmt = null;
 DBConnectionMgr pool = null;
-
 try{
-	pool=DBConnectionMgr.getInstance();
-	conn=pool.getConnection();
-	
+	  pool = DBConnectionMgr.getInstance();		
+	   conn= pool.getConnection(); 
 	response.setCharacterEncoding("euc-kr");
 	request.setCharacterEncoding("euc-kr");
 	/* String a = ;	
@@ -234,10 +232,8 @@ try{
 	catch(Exception e){
 		e.printStackTrace();
 	}
-	finally	{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-		if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-		if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-		if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
+	finally	{ 
+		pool.freeConnection(conn,pstmt,rs);
 	}
 %>
 </table>
