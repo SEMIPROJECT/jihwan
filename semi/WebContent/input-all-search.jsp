@@ -29,7 +29,7 @@ Connection conn = null;                                        // null로 초기화 
 Statement pstmt = null;
 
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";        // 사용하려는 데이터베이스명을 포함한 URL 기술
+	String url = "jdbc:mysql://192.168.10.49:3306/testboard";        // 사용하려는 데이터베이스명을 포함한 URL 기술
 	String id = "root";                                                    // 사용자 계정
 	String pw = "1234";                                                // 사용자 계정의 패스워드
 
@@ -73,7 +73,7 @@ try{
 	}
 	catch(Exception e){                                                    // 예외가 발생하면 예외 상황을 처리한다.
 		e.printStackTrace();
-		out.println("member 테이블 호출에 실패했습니다.");
+		out.println("tinput 테이블 호출에 실패했습니다.");
 	}
 	finally	{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
 		if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
