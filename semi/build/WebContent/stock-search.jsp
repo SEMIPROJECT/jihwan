@@ -36,7 +36,7 @@ Connection conn = null;                                        // null로 초기화 
 PreparedStatement pstmt = null;
 
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";
+	String url = "jdbc:mysql://192.168.10.49:3306/testboard";
 	String id = "root";                                                    // 사용자 계정
 	String pw = "1234";                                                // 사용자 계정의 패스워드
 

@@ -66,7 +66,7 @@
 	</div>
 	
 	<div>
-	<form method="post" action="sal-search.jsp">
+	<form method="post" action="totalSal.jsp">
 	<input class="css1" type="submit" value="급여조회" />
 	</form>
 	</div>

@@ -5,6 +5,7 @@ public class StockDto {
 	private String name;	// tinput테이블 상품명
 	private int count;		// 입고갯수
 	private String idate;	// 입고일
+	private String odate;	// 출고일
 	private int des;		// 부서번호
 	
 	//private int iname;		// tlist와 tstock테이블 상품명
@@ -36,6 +37,12 @@ public class StockDto {
 	}
 	public void setIdate(String idate) {
 		this.idate = idate;
+	}
+	public String getOdate() {
+		return odate;
+	}
+	public void setOdate(String odate) {
+		this.odate = odate;
 	}
 	public int getDes() {
 		return des;

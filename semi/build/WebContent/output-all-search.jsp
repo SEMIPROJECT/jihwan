@@ -18,7 +18,7 @@ java.sql.Statement,java.util.Scanner" %>
 정렬 : 
 <input type="radio" name="code" value="code" />상품코드&nbsp;
 <input type="radio" name="code" value="count" />갯수&nbsp;
-<input type="radio" name="code" value="odate" />입고일&nbsp;
+<input type="radio" name="code" value="odate" />출고일&nbsp;
 <input class="b1" type="submit" value="정렬" />&nbsp;
 </form>
 
@@ -47,8 +47,8 @@ try{
 	<tr class="lv-bg">
 		<td width="100">상품코드</td>
 		<td width="100">상품명</td>
-		<td width="100">입고갯수</td>
-		<td width="100">입고일</td>
+		<td width="100">출고갯수</td>
+		<td width="100">출고일</td>
 	</tr>
 <%	
 	while(rs.next()){                                                        // 결과를 한 행씩 돌아가면서 가져온다.
