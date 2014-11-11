@@ -26,13 +26,14 @@ java.sql.Statement,java.util.Scanner" %>
 <%@include file="inc/asdf.jsp" %>
 <%@include file="inc/buttoncss.jsp" %>
 
-   <form method="post" action="output.jsp">
+   <form method="post" action="/semi/jaego">
+   	<input type="hidden" name="cmd" value="OUTPUT" />
       <div style="border: 1px" >         
          <div>
-            <div>입고입력</div>
+            <div>출고입력</div>
             <div>상품코드 : <input type="text" name="code" /></div>            
-            <div>입고갯수 : <input type="text" name="count" /></div>
-            <div>입고날짜 : <input type="text" id="datepicker" name="date" /></div>
+            <div>출고갯수 : <input type="text" name="count" /></div>
+            <div>출고날짜 : <input type="text" id="datepicker" name="date" /></div>
          </div>
    <hr/>
          
@@ -45,93 +46,7 @@ java.sql.Statement,java.util.Scanner" %>
 
 
 <table width="550" border="1">
-<%
-ResultSet rs = null;
-Connection conn = null;                                        // null로 초기화 한다.
-PreparedStatement pstmt = null;
-Statement stmt = null;
-DBConnectionMgr pool = null;
 
-try{
-   /* String url = "jdbc:oracle:thin:@192.168.10.49:1521:orcl";        // 사용하려는 데이터베이스명을 포함한 URL 기술
-   String id = "jointest";                                                    // 사용자 계정
-   String pw = "1111";                                                // 사용자 계정의 패스워드
-   
-   Class.forName("oracle.jdbc.OracleDriver");                       // 데이터베이스와 연동하기 위해 DriverManager에 등록한다.
-   conn=DriverManager.getConnection(url,id,pw);  */
-   
-         // DriverManager 객체로부터 Connection 객체를 얻어온다.
-   
-   	   pool = DBConnectionMgr.getInstance();		
-	   conn= pool.getConnection(); 
-   String a = request.getParameter("code");
-   String count = request.getParameter("count");
-   String date = request.getParameter("date");
-   out.println("여기1");	
-   String sql = "select iname, cname, price, sprice , des from tlist where code = ?";                         // sql 쿼리
-   pstmt = conn.prepareStatement(sql);                          // prepareStatement에서 해당 sql을 미리 컴파일한다.
-   pstmt.setString(1, a);
-   rs = pstmt.executeQuery();   	
-   rs.next();   
-   String iname = rs.getString("iname");
-   String cname = rs.getString("cname");
-   int price = rs.getInt("price");
-   int sprice = rs.getInt("sprice");
-   int des = rs.getInt("des");
-   out.println("여기");	
-   String sql3 = "update tstock set count = count- ? where code=?";
-   pstmt = conn.prepareStatement(sql3);
-        
-   pstmt.setString(1, count); //code
-   pstmt.setString(2, a); // count
-   int result = pstmt.executeUpdate();   
-   out.println(result);
-    if(result == 0){
-    	out.println("업뎃");
-       String sql2 = "insert into tstock values(?, ?, ?, ?, ?, ?,?)";
-       System.out.println(sql2);
-       pstmt = conn.prepareStatement(sql2);
-       pstmt.setString(1, a); //code
-       pstmt.setString(2, iname); // iname
-       pstmt.setString(3, cname); // cname
-       pstmt.setString(4, count); // count
-       pstmt.setInt(5, price); // price
-       pstmt.setInt(6, sprice); // sprice
-       pstmt.setInt(7, des); // desc
-       pstmt.executeUpdate();
-       
-       String sql4 = "insert into toutput values(? , ?, ?, ?,?)";
-       
-       pstmt = conn.prepareStatement(sql4);
-       pstmt.setString(1, a);
-       pstmt.setString(2, iname);
-       pstmt.setString(3, count);
-       pstmt.setString(4, date); //날짜
-       pstmt.setInt(5, des); // desc
-       pstmt.executeUpdate();
-    }
-    else{    	
-       String sql4 = "insert into toutput values(?, ?, ?, ?,?)";            
-       pstmt = conn.prepareStatement(sql4);
-       pstmt.setString(1, a);
-       pstmt.setString(2, iname);
-       pstmt.setString(3, count);
-       pstmt.setString(4, date); //날짜
-       pstmt.setInt(5, des); // desc
-       pstmt.executeUpdate();
-    }
-  
-   }
-   catch(Exception e){                                                    // 예외가 발생하면 예외 상황을 처리한다.
-     //e.printStackTrace();
-	    String a = request.getParameter("code");
-      if(a != null)
-      out.println("입력된 값이 없거나 리스트에 없는 상품입니다."); 
-   }
-   finally   {
-	   pool.freeConnection(conn,pstmt,rs);
-   }
-%>
 </table>
 </body>
 </html>
