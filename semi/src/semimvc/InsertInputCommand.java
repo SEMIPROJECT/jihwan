@@ -1,23 +1,45 @@
-package mybean;
+package semimvc;
 
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-public class semiDao {
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import mybean.DBConnectionMgr;
+import mybean.semiDto;
+
+public class InsertInputCommand implements Command {
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	private DBConnectionMgr pool;
+	semiDto dto = new semiDto();
 	
-	public semiDao(){
+	public InsertInputCommand(){
 		try{
 			pool = DBConnectionMgr.getInstance();
-			
 		}
 		catch(Exception err){
-			System.out.println("semiDao() : " + err);
+			System.out.println("InsertInputCommand() : " + err);
 		}
 	}
-	
+	@Override
+	public Object processCommand(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("insertinput success");
+		req.setCharacterEncoding("euc-kr");
+
+		dto.setList_code(Integer.parseInt(req.getParameter("code")));
+   	  	dto.setSt_cnt(Integer.parseInt(req.getParameter("count")));
+   	   	dto.setIdate(req.getParameter("date"));
+   	   	insertInput(dto);
+   	   	
+		return "/input_DBCP.jsp";
+	}
 	public void insertInput(semiDto dto){
 		String sql1 = "";
 		String sql2 = "";
@@ -72,59 +94,6 @@ public class semiDao {
 		}
 		catch(Exception err){
 			System.out.println("insertInput() : " + err);
-		}
-		finally{
-			pool.freeConnection(con, pstmt, rs);
-		}
-	}
-	public void insertOutput(semiDto dto){
-		String sql = null;
-		int st_cnt;
-		try{
-			con = pool.getConnection();
-			sql = "select iname, cname, price, sprice , des from tlist where code = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, dto.getList_code());
-			rs = pstmt.executeQuery();
-			rs.next();
-			dto.setList_iname(rs.getString("iname"));
-			dto.setList_cname(rs.getString("cname"));
-			dto.setList_price(rs.getInt("price"));
-			dto.setList_sell_price(rs.getInt("sprice"));
-			dto.setList_des(rs.getInt("des"));
-			//System.out.println("select문 ok");
-			
-			sql = "select count from tstock where code = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, dto.getList_code());
-			rs = pstmt.executeQuery();
-			rs.next();
-			st_cnt = rs.getInt("count");
-			
-			if(st_cnt < dto.getSt_cnt()){
-				System.out.println("재고 수량 초과");
-				return;
-			}
-			else if(st_cnt >= dto.getSt_cnt()){
-				sql = "update tstock set count = count- ? where code=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, dto.getSt_cnt());
-				pstmt.setInt(2, dto.getList_code());
-				pstmt.executeUpdate();
-				System.out.println("tstock update ok");
-			}
-			sql = "insert into toutput values(?, ?, ?, ?,?)";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, dto.getList_code());
-			pstmt.setString(2, dto.getList_iname());
-			pstmt.setInt(3, st_cnt);
-			pstmt.setString(4, dto.getOdate());
-			pstmt.setInt(5, dto.getList_des());
-			pstmt.executeUpdate();
-			//System.out.println("toutput insert ok");
-		}
-		catch(Exception err){
-			System.out.println("insertOutput() : " + err);
 		}
 		finally{
 			pool.freeConnection(con, pstmt, rs);

@@ -17,7 +17,7 @@ java.sql.Statement,java.util.Scanner" %>
 정렬 : 
 <input type="radio" name="code" value="code" />상품코드&nbsp;
 <input type="radio" name="code" value="count" />갯수&nbsp;
-<input type="radio" name="code" value="odate" />입고일&nbsp;
+<input type="radio" name="code" value="odate" />출고일&nbsp;
 <input class="b1" type="submit" value="정렬" />&nbsp;
 </form>
 
@@ -29,7 +29,7 @@ Connection conn = null;                                        // null로 초기화 
 Statement pstmt = null;
 
 try{
-	String url = "jdbc:mysql://localhost:3306/testboard";        // 사용하려는 데이터베이스명을 포함한 URL 기술
+	String url = "jdbc:mysql://192.168.10.49:3306/testboard";        // 사용하려는 데이터베이스명을 포함한 URL 기술
 	String id = "root";                                                    // 사용자 계정
 	String pw = "1234";                                                // 사용자 계정의 패스워드
 
@@ -49,8 +49,8 @@ try{
 	<tr class="lv-bg">
 		<td width="100">상품코드</td>
 		<td width="100">상품명</td>
-		<td width="100">입고갯수</td>
-		<td width="100">입고일</td>
+		<td width="100">출고갯수</td>
+		<td width="100">출고일</td>
 	</tr>
 <%	
 	while(rs.next()){                                                        // 결과를 한 행씩 돌아가면서 가져온다.

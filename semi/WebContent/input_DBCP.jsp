@@ -18,20 +18,19 @@ java.sql.Statement,java.util.Scanner" %>
     	dateFormat:"yy/mm/dd"
     });
   });
-  <link rel="stylesheet" type="text/css" href="css/table.css">
   </script>
+  <link rel="stylesheet" type="text/css" href="css/table.css">
 </head>
 <body>
 <%@include file="inc/asdf.jsp" %>
 <%@include file="inc/buttoncss.jsp" %>
-<jsp:useBean id="dao" class="mybean.semiDao"	/>
-<jsp:useBean id="dto" class="mybean.semiDto"	/>
 <%
 	request.setCharacterEncoding("euc-kr");
 	response.setCharacterEncoding("euc-kr");
 %>
 
-   <form method="post" action="input_DBCP.jsp">
+   <form method="post" action="/semi/semi.action">
+   	<input type="hidden" name="command" value="INPUT"	/>
       <div style="border: 1px" >         
          <div>
             <div>입고입력</div>
@@ -40,25 +39,13 @@ java.sql.Statement,java.util.Scanner" %>
             <div>입고날짜 : <input type="text" id="datepicker" name="date" /></div>
          </div>
    <hr/>
-         
+   
             <div>               
                <input class="b1" type="submit" value="전송" />               
             </div>
 
       </div>
 <table width="550" border="1">
-<%
-   	if(request.getParameter("code") != null && request.getParameter("count") != null
-   			&& request.getParameter("date") != null){
-   		// getList_code(), getSt_cnt(), getIdate()
-   	  	dto.setList_code(Integer.parseInt(request.getParameter("code")));
-   	  	dto.setSt_cnt(Integer.parseInt(request.getParameter("count")));
-   	   	dto.setIdate(request.getParameter("date"));
-   	   	
-   		dao.insertInput(dto);
- 	   	//response.sendRedirect("input_DBCP.jsp");
-   	}
-%>
 </table>
    </form>
 </body>
